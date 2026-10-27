@@ -1,0 +1,10 @@
+[
+  {"id": "U1001", "userName": "priya.shah", "active": true, "displayName": "Priya Shah", "emails": [{"value": "priya.shah@betterup.co", "primary": true}], "title": "Software Engineer II", "enterprise": {"employeeNumber": "W1001", "managerId": "W0601"}},
+  {"id": "U1002", "userName": "marcus.lee", "active": true, "displayName": "Marcus Lee", "emails": [{"value": "marcus.lee@betterup.co", "primary": true}], "title": "Account Executive", "enterprise": {"employeeNumber": "W1002", "managerId": "W0700"}},
+  {"id": "U1003X", "userName": "jonathan.okafor", "active": true, "displayName": "Jon Okafor", "emails": [{"value": "jonathan.okafor@betterup.co", "primary": true}], "title": "Product Designer", "enterprise": {}},
+  {"id": "U1004", "userName": "aisha.rahman", "active": true, "displayName": "Aisha Rahman", "emails": [{"value": "aisha.rahman@betterup.co", "primary": true}], "title": "Data Engineer", "enterprise": {"employeeNumber": "W1004", "managerId": "W0500"}},
+  {"id": "U1006", "userName": "sam.patel", "active": true, "displayName": "Sam Patel", "emails": [{"value": "sam.patel@betterup.co", "primary": true}], "title": "Executive Assistant", "enterprise": {"employeeNumber": "W1006", "managerId": "W0700"}},
+  {"id": "U1007", "userName": "elena.petrva", "active": true, "displayName": "Elena Petrva", "emails": [{"value": "elena.petrva@betterup.co", "primary": true}], "title": "People Partner", "enterprise": {"employeeNumber": "W1007", "managerId": "W0700"}},
+  {"id": "U1008", "userName": "hannah.kim", "active": true, "displayName": "Hannah Kim", "emails": [{"value": "hannah.kim@betterup.co", "primary": true}], "title": "Marketing Manager", "enterprise": {"employeeNumber": "W1008", "managerId": "W0700"}},
+  {"id": "U9001", "userName": "design.contractor", "active": true, "displayName": "Design Contractor", "emails": [{"value": "design.contractor@betterup.co", "primary": true}], "title": "Freelance Illustrator", "enterprise": {}}
+]

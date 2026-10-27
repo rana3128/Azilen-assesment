@@ -1,0 +1,10 @@
+[
+  {"id": "g1001", "primaryEmail": "priya.shah@betterup.co", "name": {"givenName": "Priya", "familyName": "Shah"}, "suspended": false, "externalIds": [{"type": "organization", "value": "W1001"}], "organizations": {"department": "Engineering", "title": "Software Engineer II"}},
+  {"id": "g1002", "primaryEmail": "marcus.lee@betterup.co", "name": {"givenName": "Marcus", "familyName": "Lee"}, "suspended": false, "externalIds": [{"type": "organization", "value": "W1002"}], "organizations": {"department": "Sales", "title": "Account Executive"}},
+  {"id": "g1003", "primaryEmail": "jon.okafor@betterup.co", "name": {"givenName": "Jon", "familyName": "Okafor"}, "suspended": false, "externalIds": [{"type": "organization", "value": "W1003"}], "organizations": {"department": "Design", "title": "Product Designer"}},
+  {"id": "g1004", "primaryEmail": "aisha.rahman@betterup.co", "name": {"givenName": "Aisha", "familyName": "Rahman"}, "suspended": false, "externalIds": [{"type": "organization", "value": "W1004"}], "organizations": {"department": "Engineering", "title": "Data Engineer"}},
+  {"id": "g1006", "primaryEmail": "sam.patel@betterup.co", "name": {"givenName": "Sam", "familyName": "Patel"}, "suspended": false, "externalIds": [{"type": "organization", "value": "W1006"}], "organizations": {"department": "Office of the CEO", "title": "Executive Assistant"}},
+  {"id": "g1007", "primaryEmail": "elena.petrva@betterup.co", "name": {"givenName": "Elena", "familyName": "Petrva"}, "suspended": false, "externalIds": [{"type": "organization", "value": "W1007"}], "organizations": {"department": "People", "title": "People Partner"}},
+  {"id": "g1008", "primaryEmail": "hannah.kim@betterup.co", "name": {"givenName": "Hannah", "familyName": "Kim"}, "suspended": false, "externalIds": [{"type": "organization", "value": "W1008"}], "organizations": {"department": "Marketing", "title": "Marketing Manager"}},
+  {"id": "g9001", "primaryEmail": "design.contractor@betterup.co", "name": {"givenName": "Design", "familyName": "Contractor"}, "suspended": false, "externalIds": [], "organizations": {"department": "Design", "title": "Freelance Illustrator"}}
+]

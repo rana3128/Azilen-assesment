@@ -1,0 +1,9 @@
+[
+  {"row_id": "r2", "Name": "Priya Shah", "Work Email": "priya.shah@betterup.co", "Start Date": "2026-11-02", "Cohort": "2026-11-02", "Manager": "Raj Mehta"},
+  {"row_id": "r3", "Name": "Marcus Lee", "Work Email": "marcus.lee@betterup.co", "Start Date": "2026-11-02", "Cohort": "2026-11-02", "Manager": "Lena Ortiz"},
+  {"row_id": "r4", "Name": "Jon Okafor", "Work Email": "jon.okafor@betterup.co", "Start Date": "2026-11-09", "Cohort": "2026-11-09", "Manager": "Dana Whitfield"},
+  {"row_id": "r5", "Name": "Aisha Rahman", "Work Email": "aisha.rahman@betterup.co", "Start Date": "2026-11-09", "Cohort": "2026-11-09", "Manager": "Dana Whitfield"},
+  {"row_id": "r6", "Name": "Diego Alvarez", "Work Email": "diego.alvarez@betterup.co", "Start Date": "2026-11-02", "Cohort": "2026-11-02", "Manager": "Lena Ortiz"},
+  {"row_id": "r7", "Name": "Elena Petrva", "Work Email": "elena.petrva@betterup.co", "Start Date": "2026-11-09", "Cohort": "2026-11-09", "Manager": "Lena Ortiz"},
+  {"row_id": "r8", "Name": "Hannah Kim", "Work Email": "hannah.kim@betterup.co", "Start Date": "2026-11-09", "Cohort": "2026-11-09", "Manager": "Lena Ortiz"}
+]

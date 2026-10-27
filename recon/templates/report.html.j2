@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Onboarding Reconciliation</title>
+<style>
+:root {
+  --bg: #f7f7f8; --panel: #ffffff; --text: #1c1d22; --muted: #6b6f7b; --border: #e3e4e8;
+  --critical: #b42318; --high: #c4320a; --medium: #b54708; --low: #475467; --info: #667085;
+  --ok: #067647; --chip: #f0f1f4; --accent: #3e4bd8;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #111216; --panel: #1a1c22; --text: #e8e9ed; --muted: #9a9eab; --border: #2c2f38;
+          --critical: #f97066; --high: #fd853a; --medium: #fdb022; --low: #98a2b3; --info: #85888e;
+          --ok: #47cd89; --chip: #262932; --accent: #8098f9; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 15px; margin: 32px 0 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.sub { color: var(--muted); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 18px; }
+.tile { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.tile .n { font-size: 24px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.tile .l { color: var(--muted); font-size: 12px; }
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { font-size: 12px; color: var(--muted); font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+.sev { font-weight: 650; font-size: 12px; text-transform: uppercase; }
+.sev-critical { color: var(--critical); } .sev-high { color: var(--high); } .sev-medium { color: var(--medium); }
+.sev-low { color: var(--low); } .sev-info { color: var(--info); }
+.chip { display: inline-block; background: var(--chip); border-radius: 6px; padding: 1px 7px; font-size: 12px; white-space: nowrap; }
+.ok { color: var(--ok); } .bad { color: var(--critical); }
+code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+.hire { margin-top: 14px; }
+.hire h3 { font-size: 15px; margin: 0; padding: 12px 14px 4px; }
+.hire .meta { padding: 0 14px 10px; color: var(--muted); font-size: 12px; }
+.rem { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.verdict { margin-top: 6px; padding: 8px 10px; border-left: 3px solid var(--accent); background: var(--chip); border-radius: 4px; font-size: 13px; }
+details summary { cursor: pointer; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Onboarding reconciliation</h1>
+  <div class="sub">Run <span class="mono">{{ r.run_id }}</span> · as of {{ r.as_of }} · {{ r.hires|length }} hires in scope · Workday is the system of record</div>
+
+  <div class="tiles">
+    {% for s in ["critical","high","medium","low"] %}
+    <div class="tile"><div class="n sev-{{ s }}">{{ sev[s] or 0 }}</div><div class="l">{{ s }} findings</div></div>
+    {% endfor %}
+    <div class="tile"><div class="n">{{ r.triage|length }}</div><div class="l">sent to Claude</div></div>
+    <div class="tile"><div class="n">{{ rem_status['applied'] or 0 }}</div><div class="l">auto-applied</div></div>
+    <div class="tile"><div class="n">{{ rem_status['awaiting_approval'] or 0 }}</div><div class="l">awaiting approval</div></div>
+    <div class="tile"><div class="n">{{ r.queue_stats.get('new', 0) }} / {{ r.queue_stats.get('resolved', 0) }}</div><div class="l">queue new / resolved</div></div>
+  </div>
+
+  <h2>Systems</h2>
+  <div class="panel"><table>
+    <tr><th>System</th><th>Status</th><th>Records</th><th>Attempts</th></tr>
+    {% for s in r.systems %}
+    <tr><td>{{ s.system }}</td>
+        <td>{% if s.ok %}<span class="ok">ok</span>{% else %}<span class="bad">unavailable</span> <span class="sub">{{ s.error }}</span>{% endif %}</td>
+        <td>{{ s.records }}</td><td>{{ s.attempts }}</td></tr>
+    {% endfor %}
+  </table></div>
+
+  <h2>Findings by hire</h2>
+  {% for wid, fs in by_hire.items() %}
+  {% set h = hires.get(wid) %}
+  <div class="panel hire">
+    <h3>{% if h %}{{ h.display_name }} <span class="chip">{{ wid }}</span> <span class="chip">{{ h.status }}</span>{% else %}Unlinked accounts / systems{% endif %}</h3>
+    {% if h %}<div class="meta">{{ h.title }} · {{ h.department }} · starts {{ h.start_date }} · {{ h.location }}{% if not h.ashby_candidate_id %} · off-cycle{% endif %}</div>{% endif %}
+    <table>
+      <tr><th style="width:90px">Severity</th><th style="width:150px">Type</th><th style="width:80px">System</th><th>Detail</th></tr>
+      {% for f in fs %}
+      <tr>
+        <td class="sev sev-{{ f.severity.value }}">{{ f.severity.value }}</td>
+        <td><span class="chip">{{ f.type.value }}</span></td>
+        <td>{{ f.system }}</td>
+        <td>{{ f.message }}
+          {% set t = r.triage.get(f.key) %}
+          {% if t %}
+          <div class="verdict"><b>{{ t.actor }}</b>: {{ t.verdict.decision }} ({{ '%.2f'|format(t.verdict.confidence) }})
+            {% if t.requires_human %}· <span class="bad">routed to human</span> — {{ t.guardrail_note }}{% else %}· <span class="ok">eligible for automation</span>{% endif %}
+            <br>{{ t.verdict.rationale }}<br><i>{{ t.verdict.suggested_action }}</i></div>
+          {% endif %}
+          {% for rem in rem_by_finding.get(f.key, []) %}
+          <div class="rem"><span class="chip">{{ rem.status }}</span> {{ rem.action }}{% if rem.owner %} → {{ rem.owner }}{% endif %}
+            {% if rem.action != 'escalate' %}· <code>{{ rem.idempotency_key }}</code>{% endif %} · {{ rem.reason }}{% if rem.error %} · <span class="bad">{{ rem.error }}</span>{% endif %}</div>
+          {% endfor %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endfor %}
+
+  <h2>Open exception queue ({{ queue|length }})</h2>
+  <div class="panel"><table>
+    <tr><th>Severity</th><th>Type</th><th>Seen</th><th>First seen</th><th>Message</th></tr>
+    {% for e in queue %}
+    <tr><td class="sev sev-{{ e.severity }}">{{ e.severity }}</td><td>{{ e.type }}</td><td>{{ e.times_seen }}×</td>
+        <td class="mono">{{ e.first_seen }}</td><td>{{ e.message }}</td></tr>
+    {% endfor %}
+  </table></div>
+
+  <h2>Audit trail (latest)</h2>
+  <div class="panel"><table>
+    <tr><th>Time</th><th>Actor</th><th>Event</th><th>Details</th></tr>
+    {% for a in audit %}
+    <tr><td class="mono">{{ a.ts }}</td><td>{{ a.actor }}</td><td>{{ a.event }}</td>
+        <td><details><summary class="mono">{{ a.run_id }}</summary><code>{{ a | tojson }}</code></details></td></tr>
+    {% endfor %}
+  </table></div>
+</main>
+</body>
+</html>
